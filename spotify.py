@@ -23,7 +23,8 @@ def get_access_token(client_id, client_secret, redirect_uri):
     authorization_url, state = spotify_oauth.authorization_url("https://accounts.spotify.com/authorize")
     print('Please go here and authorize Spotify: ', authorization_url)
 
-    redirect_response = input('Paste the URL you were redirected to after logging in: ')
+    redirect_response = input('Paste the URL you were redirected to after logging in (the page will not load, '
+                              'you only need the URL): ')
     auth = HTTPBasicAuth(client_id, client_secret)
 
     response = spotify_oauth.fetch_token("https://accounts.spotify.com/api/token", auth=auth,
