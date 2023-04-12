@@ -1,7 +1,7 @@
 import os
-import google_auth_oauthlib
-import googleapiclient
-import youtube_dl
+import google_auth_oauthlib.flow
+import googleapiclient.discovery
+import yt_dlp
 
 
 class Playlist(object):
@@ -11,22 +11,19 @@ class Playlist(object):
 
 
 class Song(object):
-    def __init__(self, artist, track, item_id):
-        self.artist = artist
-        self.track = track
+    def __init__(self, track, item_id):
+        self.title = track
         self.id = item_id
 
 
 def extract_artist_and_track_from_video(video_id):
     youtube_url = f"https://www.youtube.com/watch?v={video_id}"
-    video = youtube_dl.YoutubeDL({'quiet': True}).extract_info(
+    video = yt_dlp.YoutubeDL({'quiet': True}).extract_info(
         youtube_url, download=False
     )
 
-    artist = video['artist']
-    track = video['track']
-
-    return artist, track
+    title = video["title"]
+    return title
 
 
 class YouTubeClient(object):
@@ -74,9 +71,9 @@ class YouTubeClient(object):
         for item in response['items']:
             video_id = item['snippet']['resourceId']['videoId']
             item_id = item['id']
-            artist, track = extract_artist_and_track_from_video(video_id)
-            if artist and track:
-                songs.append(Song(artist, track, item_id))
+            track = extract_artist_and_track_from_video(video_id)
+            if track:
+                songs.append(Song(track, item_id))
 
         return songs
 
