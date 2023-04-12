@@ -88,3 +88,6 @@ class SpotifyClient(object):
         )
 
         return response.ok
+
+    def create_playlist(self, title):
+        pass

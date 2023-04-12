@@ -30,7 +30,7 @@ def run():
         else:
             print(f"{i}: {spotify_playlists[i - 1].title}")
 
-    spotify_choice = int(input("Choose a Spotify playlist to add the songs to:"))
+    spotify_choice = int(input("Choose a Spotify playlist to add the songs to: "))
     if spotify_choice == 0:
         pass
         chosen_spotify_playlist = None
@@ -42,7 +42,7 @@ def run():
     songs = youtube_client.get_videos_from_playlist(chosen_playlist.id)
     print(f"Attempting to transfer {len(songs)} tracks...")
 
-    # 4. Search for the songs on Spotify
+    # 4. Search for the songs on Spotify and add them to the chosen playlist
     track_uris = []
     for song in songs:
         track = spotify_client.get_song(song.title)
@@ -50,6 +50,15 @@ def run():
             track_uris.append(track.uri)
     spotify_client.add_songs_to_playlist(track_uris, chosen_spotify_playlist.id)
     print("Success!")
+
+    # 5. Ask if user would like to remove the songs from the YouTube playlist
+    remove = int(input("""Would you like to remove the transferred songs from your YouTube playlist?\n
+                          0: No\n
+                          1: Yes\n
+                          Answer: """))
+    if remove:
+        youtube_client.remove_videos_from_playlist([song.id for song in songs])
+        print("Done.")
 
 
 if __name__ == '__main__':

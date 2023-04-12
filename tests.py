@@ -13,9 +13,7 @@ REDIRECT_URI = config['REDIRECT_URI']
 
 class SpotifyTest(unittest.TestCase):
 
-    def __init__(self):
-        super().__init__()
-        self.spotify_client = SpotifyClient(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+    spotify_client = SpotifyClient(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
     def test_get_song(self):
         result = self.spotify_client.get_song("seven lions - freesol")
