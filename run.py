@@ -32,8 +32,10 @@ def run():
 
     spotify_choice = int(input("Choose a Spotify playlist to add the songs to: "))
     if spotify_choice == 0:
-        pass
-        chosen_spotify_playlist = None
+        name = str(input("Enter a name for your new playlist: "))
+        description = str(input("Enter a description for your new playlist: "))
+        chosen_spotify_playlist = spotify_client.create_playlist(name, description)
+        print(f"{name} created.")
     else:
         chosen_spotify_playlist = spotify_playlists[spotify_choice - 1]
         print(f"{chosen_spotify_playlist.title} selected.")
@@ -52,10 +54,8 @@ def run():
     print("Success!")
 
     # 5. Ask if user would like to remove the songs from the YouTube playlist
-    remove = int(input("""Would you like to remove the transferred songs from your YouTube playlist?\n
-                          0: No\n
-                          1: Yes\n
-                          Answer: """))
+    remove = int(input("""Would you like to remove the transferred songs from your YouTube playlist?\n0: No\n1: 
+    Yes\nAnswer: """))
     if remove:
         youtube_client.remove_videos_from_playlist([song.id for song in songs])
         print("Done.")
