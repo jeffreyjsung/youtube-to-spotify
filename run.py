@@ -54,8 +54,7 @@ def run():
     print("Success!")
 
     # 5. Ask if user would like to remove the songs from the YouTube playlist
-    remove = int(input("""Would you like to remove the transferred songs from your YouTube playlist?\n0: No\n1: 
-    Yes\nAnswer: """))
+    remove = int(input("""Would you like to remove the transferred songs from your YouTube playlist?\n0: No\n1: Yes\nAnswer: """))
     if remove:
         youtube_client.remove_videos_from_playlist([song.id for song in songs])
         print("Done.")
